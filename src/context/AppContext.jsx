@@ -10,6 +10,8 @@ const ProviderWrapper = ({ children }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
   const [chatId, setChatId] = useState();
+  const [message, setMessage] = useState([]);
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const router = useRouter();
   const [currentState, setCurrentState] = useState("Register");
   const [form, setForm] = useState({
@@ -78,7 +80,7 @@ const ProviderWrapper = ({ children }) => {
       if (res.data.success) {
         setChat(res.data.chat);
 
-        toast.success(res.data.message);
+        // toast.success(res.data.message);
       } else {
         toast.error(res.data.message);
       }
@@ -94,6 +96,27 @@ const ProviderWrapper = ({ children }) => {
     }
   }, [user]);
 
+  const fetchMessages = async () => {
+    try {
+      const res = await axiosInstance.get(`/message/get/${selectedChatId}`);
+      console.log(res);
+      if (res.data.success) {
+        // toast.success(res.data.message);
+        setMessage(res.data.messages);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.res.data.message || "something wrong");
+    }
+  };
+  useEffect(() => {
+    if (selectedChatId) {
+      fetchMessages();
+    }
+  }, []);
+
   const value = {
     register,
     login,
@@ -101,6 +124,7 @@ const ProviderWrapper = ({ children }) => {
     setForm,
     currentState,
     setCurrentState,
+    fetchLoginUserChats,
     user,
     setUser,
     token,
@@ -108,6 +132,11 @@ const ProviderWrapper = ({ children }) => {
     chatId,
     chat,
     setChat,
+    fetchMessages,
+    message,
+    setMessage,
+    selectedChatId,
+    setSelectedChatId,
   };
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
 };

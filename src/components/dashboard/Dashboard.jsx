@@ -4,6 +4,8 @@ import { MyContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Sidebar from "../sidebar/Sidebar";
+import Chat from "../chat/Chat";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -87,8 +89,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div>
-      <button className="cursor-pointer" onClick={handleNewChat}>
+    <div className="flex h-screen">
+      <div className="border-2 w-[20%]">
+        <Sidebar />
+      </div>
+      <div className="border-2 w-[80%]">
+        <Chat />
+      </div>
+
+      {/* <button className="cursor-pointer" onClick={handleNewChat}>
         New Chat
       </button>
       <h1>Chats</h1>
@@ -120,7 +129,7 @@ export default function Dashboard() {
         />
         <button type="submit">Send</button>
       </form>
-      <button onClick={handleLogout}>logout</button>
+      <button onClick={handleLogout}>logout</button> */}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ModeToggle } from "../theme/Toggle";
 import CustomButton from "@/custom/CustomButton";
 import { Delete, Edit, Library, PencilIcon, Search } from "lucide-react";
@@ -6,9 +6,10 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { MyContext } from "@/context/AppContext";
 import axiosInstance from "@/api/axios";
+import Dialog from "../dialog/Dialog";
+import CustomTextfield from "@/custom/CustomTextfield";
 
-export default function Sidebar({ newChat }) {
-  // const [newChat, setNewChat] = useState("");
+export default function Sidebar() {
   const {
     chat,
     fetchLoginUserChats,
@@ -18,7 +19,10 @@ export default function Sidebar({ newChat }) {
     selectedChatId,
     setSelectedChatId,
     token,
+    open,
+    setOpen,
   } = useContext(MyContext);
+
   console.log(chat);
   console.log(message);
   console.log(selectedChatId);
@@ -29,10 +33,15 @@ export default function Sidebar({ newChat }) {
     router.push("/register");
   };
 
+  useEffect(() => {
+    if (selectedChatId) {
+      fetchMessages(selectedChatId);
+      router.push(`?chatId=${selectedChatId}`);
+    }
+  }, [selectedChatId]);
+
   const handleSelectChat = (id) => {
     setSelectedChatId(id);
-    fetchMessages(id);
-    router.push(`?chatId=${id}`);
   };
 
   const handleChatDelete = async (id) => {
@@ -52,6 +61,7 @@ export default function Sidebar({ newChat }) {
   };
 
   const handleNewChat = async () => {
+    // setMessage("");
     try {
       const res = await axiosInstance.post(
         "/chat/create",
@@ -64,6 +74,7 @@ export default function Sidebar({ newChat }) {
       if (res.data.success) {
         const newChat = res.data.chat;
         setSelectedChatId(newChat._id);
+        setMessage([]);
         // toast.success(res.data.message);
         fetchLoginUserChats();
       } else {
@@ -85,8 +96,8 @@ export default function Sidebar({ newChat }) {
   //   }
   // };
   return (
-    <div className="h-screen flex flex-col justify-between p-4">
-      <div className="flex flex-col gap-4">
+    <div className="h-screen flex flex-col justify-between p-4 ">
+      <div className="flex flex-col gap-4 overflow-y-auto no-scrollbar">
         <div onClick={() => router.push("/dashboard")}>
           <h1 className="font-semibold text-lg cursor-pointer">ChatGPT</h1>
         </div>
@@ -98,15 +109,15 @@ export default function Sidebar({ newChat }) {
             New chat
           </button>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer">
           <Search size={15} />
-          <button>Search chats</button>
+          <button onClick={() => setOpen(true)}>Search chats</button>
         </div>
         <div className="flex items-center gap-2">
           <Library size={15} />
           <button>Library</button>
         </div>
-        <h1 className="text-gray-500 font-sm">Chats</h1>
+        <h1 className="text-gray-500 font-sm overflow-y-auto">Chats</h1>
         {chat.map((item) => (
           <div key={item._id} className="flex items-center justify-between ">
             <button
@@ -130,6 +141,7 @@ export default function Sidebar({ newChat }) {
           </div>
         ))}
       </div>
+
       <div>
         <button onClick={handleLogout} className="cursor-pointer">
           Logout

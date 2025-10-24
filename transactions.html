@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{product_served}}Receipt</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        font-size: 14px;
+        margin-left: 40px;
+      }
+      h3 {
+        margin-top: 0;
+      }
+      .header {
+        margin-top: -40px;
+      }
+      .receipt-details {
+        margin-left: 60px;
+      }
+      .details {
+        display: flex;
+        align-items: baseline;
+      }
+      .amount {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0px 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="receipt-details">
+      <div style="text-align: left; margin: 48px 0px 60px">
+        <img
+          src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22304%22%20height%3D%2273%22%20fill%3D%22none%22%3E%3Cpath%20fill%3D%22%2300C197%22%20d%3D%22M117%2036.553c0-13.741%2010.324-23.735%2023.909-23.735%2011.954%200%2019.379%207.317%2021.735%2014.99l-9.6%203.748c-1.63-5.71-5.615-9.458-12.498-9.458-7.969%200-13.584%205.71-13.584%2014.455%200%208.565%205.615%2014.455%2013.584%2014.455%206.883%200%2010.868-3.748%2012.498-9.459l9.6%203.748c-2.536%208.03-9.962%2014.99-21.916%2014.99-13.404%200-23.728-9.993-23.728-23.734zm83.982.467v21.448h-9.54V38.953c0-4.395-2.828-6.856-6.715-6.856s-6.89%202.637-6.89%206.153v20.218h-9.718V11h9.718v15.823c2.298-2.11%205.654-3.517%209.894-3.517%208.127.352%2013.251%205.802%2013.251%2013.714zm22.823%2015.044c4.38%200%206.571-1.432%208.214-4.296l7.668%205.012c-2.738%203.938-7.302%207.517-16.065%207.517-11.502%200-18.988-7.875-18.988-18.257%200-10.023%208.215-18.257%2018.258-18.257%2011.502%200%2018.256%208.77%2018.256%2017.541v3.76H214.31c1.096%204.474%204.748%206.98%209.495%206.98zm7.85-13.425c-.913-4.474-4.017-7.338-8.581-7.338-4.564%200-8.034%202.685-8.946%207.338h17.527zm62.056%2012.19H267.43c-8.03%200-14.418-6.246-14.418-14.098s6.388-14.098%2014.418-14.098%2014.419%206.246%2014.419%2014.098v1.25c-.366%203.568-2.009%206.602-4.564%208.922h11.863c.183-.536.548-1.071.73-1.606%201.096-2.677%201.642-5.71%201.642-8.744%200-13.028-10.95-23.735-24.273-23.735s-24.273%2010.707-24.273%2023.735c0%2013.026%2010.768%2023.734%2024.273%2023.734h35.954c.366-5.175-4.014-9.458-9.49-9.458z%22%2F%3E%3Cpath%20fill%3D%22%2300C197%22%20fill-rule%3D%22evenodd%22%20d%3D%22M67.722%2049.62c2.33-3.638%203.366-7.924%203.107-12.34-.647-11.172-10.23-19.745-21.365-20.004H17.222C7.769%2017.276%200%209.612%200%200h49.852C70.96%200%2088.18%2017.276%2088.18%2038.448c0%203.897-.647%207.534-1.683%2011.171H67.722zM30.17%2035.72c.647%2011.301%2010.1%2019.874%2021.365%2019.874v.13h32.242C93.231%2055.724%20101%2063.388%20101%2073H51.148C30.04%2073%2012.82%2055.724%2012.82%2034.552c0-3.897.647-7.534%201.683-11.171h18.776c-2.331%203.637-3.367%207.923-3.108%2012.34z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E"
+          alt="logo"
+          style="height: 30px"
+        />
+      </div>
+      <h2 class="header">{{product_served}} Receipt</h2>
+      <table
+        style="
+          border-collapse: separate;
+          border-spacing: 0 1em;
+          font-size: 18px;
+        "
+      >
+        <tr>
+          <td style="width: 200px">Transaction ID</td>
+          <td style="width: 200px">{{pg_txn_id}}</td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">Paid by</td>
+          <td style="width: 200px">{{user_name}}</td>
+        </tr>
+        <tr style="margin-bottom: 16px; margin-top: -48px">
+          <td style="width: 200px">Amount</td>
+          <td style="width: 400px">
+            <table style="border-collapse: collapse; font-size: 18px">
+              <tr>
+                <td><strong>Transaction value</strong></td>
+                <td>Rs. {{transaction_value}}</td>
+              </tr>
+              <tr style="margin-bottom: 16px">
+                <td><strong>Service Charge</strong></td>
+                <td>Rs. {{service_charge}}</td>
+              </tr>
+              <tr style="margin-bottom: 16px">
+                <td><strong>Total Value</strong></td>
+                <td>Rs. {{transaction_amount}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">Paid on</td>
+          <td style="width: 200px">{{transaction_timestamp}}</td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">Deposited on</td>
+          <td style="width: 200px">{{transaction_timestamp}}</td>
+        </tr>
+        {{#wallet_load}}
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">Wallet Issued By</td>
+          <td style="width: 200px">Qwikcilver by Pinelabs</td>
+        </tr>
+        {{/wallet_load}} {{^wallet_load}}
+        <tr style="margin-bottom: 16px; font-weight: bold">
+          <td colspan="2" style="width: 400px">Recipient Details</td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">Recipient Name</td>
+          <td style="width: 200px">{{beneficiary_name}}</td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">UTR</td>
+          <td style="width: 200px">{{beneficiary_payment_utr}}</td>
+        </tr>
+        <tr style="margin-bottom: 16px">
+          <td style="width: 200px">UPI/Bank account details</td>
+          <td style="width: 400px">{{beneficiary_details}}</td>
+        </tr>
+        {{/wallet_load}}
+      </table>
+    </div>
+    <footer
+      style="
+        position: fixed;
+        bottom: 0;
+        width: 90%;
+        text-align: center;
+        border-top: 2px solid #00c197;
+      "
+    >
+      <div
+        style="display: flex; justify-content: space-around; font-size: 12px"
+      >
+        <div>
+          <p>CheQ Digital Pvt Ltd</p>
+          <p>gro@cheg.one</p>
+          <p style="color: #00c197">www.cheg.one</p>
+        </div>
+        <div>
+          <p>
+            Corporate Office: AKR Tech Park, Garvebhavipalya, Bengaluru,
+            Karnataka - 560068
+          </p>
+          <p>
+            Registered Office: D-254, Regal Garden, Sector 90, Gurgaon, Harayana
+            122001
+          </p>
+          <p>CIN: U72500HR2021PTC100146</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

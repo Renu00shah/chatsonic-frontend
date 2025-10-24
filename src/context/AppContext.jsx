@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 export const MyContext = createContext();
 
 const ProviderWrapper = ({ children }) => {
+  const [open, setOpen] = useState(false);
   const [chat, setChat] = useState([]);
   const [token, setToken] = useState();
   const [user, setUser] = useState();
@@ -71,10 +72,11 @@ const ProviderWrapper = ({ children }) => {
     }
   }, []);
 
-  const fetchLoginUserChats = async () => {
+  const fetchLoginUserChats = async (search) => {
     try {
       const res = await axiosInstance.get("/chat/single", {
         headers: { Authorization: `Bearer ${token}` },
+        params: search ? { search } : {},
       });
       console.log(res);
       if (res.data.success) {
@@ -137,6 +139,8 @@ const ProviderWrapper = ({ children }) => {
     setMessage,
     selectedChatId,
     setSelectedChatId,
+    open,
+    setOpen,
   };
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
 };
